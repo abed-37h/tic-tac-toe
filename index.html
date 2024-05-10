@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/style.css">
     <script src="script.js" defer></script>
     <title>Tic Tac Toe</title>
 </head>
 <body>
     <header>
-        <h1>Tic Tac Toe</h1>
+        <h1 class="chalk-font">Tic Tac Toe</h1>
     </header>
+    
+    <main>
+        <dialog id="result-dialog">
+            <div class="wrapper">
+                <h2 class="result"></h2>
+                <button class="restart-button">Restart</button>
+            </div>
+        </dialog>
+        <div class="players">
+            <p class="player chalk-font" id="x">Player One</p>
+            <p class="player chalk-font" id="o">Player Two</p>
+        </div>
+        <div class="board"></div>
+        <button class="restart-button">Restart</button>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; Abdurrahman Al-Hariri</p>
+        <a href="https://github.com/abed-37h" target="_blank"><img src="./icons/github.svg" alt="github-icon" class="icon"></a>
+    </footer>
 </body>
 </html>

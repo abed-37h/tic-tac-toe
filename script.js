@@ -3,9 +3,11 @@
 const createGameboard = () => {
     const board = [];
     
-    for (let i = 0; i < 9; i++) {
-        board[i] = i + 1;
-    }
+    const reset = () => {
+        for (let i = 0; i < 9; i++) {
+            board[i] = i + 1;
+        }
+    };
 
     const getBoard = () => board;
     
@@ -55,7 +57,9 @@ const createGameboard = () => {
         `);
     };
     
-    return { getBoard, move, display };
+    reset();
+    
+    return { reset, getBoard, move, display };
 };
 
 const createPlayer = (name, mark) => {
@@ -72,9 +76,16 @@ const createGameController = (playerXName = 'Player One', playerOName = 'Player 
     const playerO = createPlayer(playerOName, 'O');
 
     let turnFlipper = true; // true for playerX and false for playerO
+
+    const reset = () => {
+        turnFlipper = true;
+        board.reset();
+    }
+
+    const getCurrentPlayer = () => turnFlipper ? playerX : playerO;
     
     const playRound = (position) => {
-        const currentPlayer = turnFlipper ? playerX : playerO;
+        const currentPlayer = getCurrentPlayer()
         const result = board.move(position, currentPlayer.getMark());
 
         if (result) {
@@ -83,23 +94,20 @@ const createGameController = (playerXName = 'Player One', playerOName = 'Player 
 
         display(); // Displays for next round
 
-        return { currentPlayer, result };
+        return result;
     };
 
     const display = () => {
-        console.log(turnFlipper ? 
-            `${playerX.getName()}: ${playerX.getMark()}` :
-            `${playerO.getName()}: ${playerO.getMark()}`
-        );
+        console.log(`${getCurrentPlayer().getName()}: ${getCurrentPlayer().getMark()}`);
         board.display();
     }
 
     display();
 
-    return { playRound };
+    return { getCurrentPlayer, playRound, reset, getBoard: board.getBoard };
 };
 
-const playGame = (() => {
+const displayController = (() => {
     const playerXName = prompt('Player One', 'Player One');
     const playerOName = prompt('Player Two', 'Player Two');
 
@@ -109,26 +117,77 @@ const playGame = (() => {
     }
     
     const game = createGameController(playerXName, playerOName);
+
+    let gameOver = false;
     
-    while (true) {
-        const position = +prompt('Position');
-        const { currentPlayer, result } = game.playRound(position);
-        
-        if (!result) {
-            console.log(`Invalid position: ${position}. Play again.\n`);
-            continue;
-        }
+    const playerXDisplay = document.querySelector('#x');
+    const playerODisplay = document.querySelector('#o');
+    const boardDiv = document.querySelector('.board');
+    const restartButton = document.querySelector('.restart-button');
+    const resultDialog = document.querySelector('#result-dialog');
+
+    playerXDisplay.textContent = playerXName;
+    playerODisplay.textContent = playerOName;
+
+    const updateDisplay = () => {
+        boardDiv.textContent = '';
+
+        const board = game.getBoard();
+        const currentPlayer = game.getCurrentPlayer();
+
+        document.querySelectorAll('.player').forEach(player => player.classList.remove('highlight'));
+        document.querySelector(`#${currentPlayer.getMark().toLowerCase()}`).classList.add('highlight');
     
-        if (result == 'win') {
-            console.log(`Hooray! ${currentPlayer.getName()} wins.`);
-            break;
-        }
-    
-        console.log(result.toLocaleUpperCase());
-    
-        if (result == 'draw') {
-            break;
-        }
+        board.forEach((cell) => {
+            const cellButton = document.createElement('button');
+            cellButton.classList.add('cell');
+            cellButton.classList.add('chalk-font');
+            cellButton.textContent = Number.isInteger(cell) ? '' : cell;
+            cellButton.dataset.position = cell;
+            boardDiv.appendChild(cellButton);
+        });
+    };
+
+    const displayGameOver = (message) => {
+        resultDialog.querySelector('.result').textContent = message;
+        resultDialog.showModal();
+        gameOver = true;
     }
+
+    boardDiv.addEventListener('click', (event) => {
+        if (gameOver) {
+            return;
+        }
+
+        const position = event.target.dataset.position;
+        const currentPlayer = game.getCurrentPlayer();
+
+        if (!position) {
+            return;
+        }
+
+        const result = game.playRound(position);
+        
+        updateDisplay();
+
+        if (result === 'win') {
+            displayGameOver(`Hooray! ${currentPlayer.getName()} wins.`);
+        }
+        else if (result === 'draw') {
+            displayGameOver('Draw');
+        }
+    });
+
+    restartButton.addEventListener('click', () => {
+        gameOver = false;
+        game.reset();
+        updateDisplay();
+    });
+
+    resultDialog.querySelector('.restart-button').addEventListener('click', () => {
+        resultDialog.close();
+    });
+
+    updateDisplay();
 })();
 

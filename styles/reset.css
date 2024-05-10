@@ -1,0 +1,47 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input[type=text],
+button {
+    border: none;
+    border: 1px solid #000;
+    background-color: #fff;
+}
+
+button {
+    cursor: pointer;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
