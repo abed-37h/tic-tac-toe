@@ -107,15 +107,7 @@ const createGameController = (playerXName = 'Player One', playerOName = 'Player 
     return { getCurrentPlayer, playRound, reset, getBoard: board.getBoard };
 };
 
-const displayController = (() => {
-    const playerXName = prompt('Player One', 'Player One');
-    const playerOName = prompt('Player Two', 'Player Two');
-
-    if (!playerXName || !playerOName) {
-        console.log('Game cancelled!');
-        return;
-    }
-    
+const displayController = (playerXName, playerOName) => {
     const game = createGameController(playerXName, playerOName);
 
     let gameOver = false;
@@ -189,5 +181,29 @@ const displayController = (() => {
     });
 
     updateDisplay();
+};
+
+const setGame = (() => {
+    const setNamesDialog = document.querySelector('#set-names-dialog');
+    const setNamesForm = document.querySelector('#set-names-form');
+    const resetNamesButton = document.querySelector('.reset-names-button');
+
+    setNamesDialog.showModal();
+
+    setNamesForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        setNamesDialog.close();
+
+        const data = new FormData(event.target);
+
+        const playerXName = data.get('player-x') ? data.get('player-x') : 'Player One';
+        const playerOName = data.get('player-o') ? data.get('player-o') : 'Player Two';
+
+        displayController(playerXName, playerOName);
+    });
+
+    resetNamesButton.addEventListener('click', () => {
+        setNamesDialog.showModal();
+    });
 })();
 

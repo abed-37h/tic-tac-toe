@@ -21,12 +21,29 @@
                 <button class="restart-button">Restart</button>
             </div>
         </dialog>
+
+        <dialog id="set-names-dialog">
+            <div class="wrapper">
+                <h2>Register names to start game</h2>
+                <form action="#" method="dialog" id="set-names-form">
+                    <input type="text" name="player-x" id="player-x" placeholder="Player One">
+                    <input type="text" name="player-o" id="player-o" placeholder="Player Two">
+                    
+                    <button class="confirm-button">Confirm</button>
+                </form>
+                <p class="note">First player plays with X</p>
+            </div>
+        </dialog>
+
         <div class="players">
             <p class="player chalk-font" id="x">Player One</p>
             <p class="player chalk-font" id="o">Player Two</p>
         </div>
         <div class="board"></div>
-        <button class="restart-button">Restart</button>
+        <div class="settings">
+            <button class="reset-names-button">reset names</button>
+            <button class="restart-button">Restart</button>
+        </div>
     </main>
 
     <footer>

@@ -26,10 +26,17 @@ body {
     background-color: var(--background-color);
 }
 
-h1 {
-    font-size: 3.815rem;
+h1, h2 {
     line-height: 1.2;
     margin: 16px 0;
+}
+
+h1 {
+    font-size: 3.815rem;
+}
+
+h2 {
+    font-size: 3.052rem;
 }
 
 p {
@@ -62,6 +69,50 @@ dialog .wrapper {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+}
+
+#set-names-dialog {
+    height: 80vh;
+    width: 80vw;
+}
+
+#set-names-dialog .wrapper {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+#set-names-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    row-gap: 16px;
+    column-gap: 32px;
+    font-size: 1.5rem;
+}
+
+input[type=text] {
+    padding: 8px 12px;
+    height: 64px;
+    width: 300px;
+    border-radius: 4px;
+    border: 1px solid #E5E7EB;
+}
+
+input[type=text]:focus {
+    outline: none;
+    border: 1px solid rgb(95, 95, 227);
+}
+
+.confirm-button {
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
+button {
+    padding: 16px 32px;
+    background-color: #d7d7d7;
+    border: none;
 }
 
 .highlight {
@@ -123,11 +174,10 @@ dialog .wrapper {
     color: var(--o-color);
 }
 
-.restart-button {
-    align-self: center;
-    padding: 16px 32px;
-    background-color: #d7d7d7;
-    border: none;
+.settings {
+    display: flex;
+    justify-content: space-around;
+    gap: 32px;
 }
 
 footer {
